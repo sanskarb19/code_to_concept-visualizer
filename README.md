@@ -21,9 +21,11 @@ reachable and falls back to a keyboard-editable editor if it is not.
 
 Set `GEMINI_API_KEY` to enable explanations. On Replit, add it through Replit
 Secrets; when running locally, copy `.env.example` to `.env` and set it there.
-The key is read by the Python backend and is never sent to the browser. The
-visualizer, editor, and execution controls work without it. A rejected key is
-reported as unavailable without interrupting execution.
+The key is read by the Python backend and is never sent to the browser. Source
+code and the selected step's variable snapshots are sent only when you request
+an explanation; requests use Google's stateless Interactions API mode. The
+visualizer, editor, and execution controls work without Gemini. A rejected key
+or unavailable model is reported without interrupting execution.
 
 ## API
 
