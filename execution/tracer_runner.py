@@ -81,9 +81,9 @@ def main():
                 ret = serialize(arg)
             except Exception:
                 ret = {"__type__": "object", "value": "<unserializable>"}
+            events.append(make_event(frame, "return", {"return_value": ret}))
             if state["calls"]:
                 state["calls"].pop()
-            events.append(make_event(frame, "return", {"return_value": ret}))
             state["step"] += 1
 
         elif event_type == "exception":
@@ -101,6 +101,8 @@ def main():
     def global_tracer(frame, event_type, arg):
         if frame.f_code.co_filename != USER_FILENAME:
             return None
+        if event_type == "call":
+            return local_tracer(frame, "call", arg)
         return local_tracer
 
     sys.settrace(global_tracer)
@@ -117,6 +119,8 @@ def main():
             if tb.tb_frame.f_code.co_filename == USER_FILENAME:
                 user_line = tb.tb_lineno
             tb = tb.tb_next
+        if isinstance(e, SyntaxError):
+            user_line = getattr(e, "lineno", None) or user_line
         error_info = {
             "type": type(e).__name__,
             "message": str(e),

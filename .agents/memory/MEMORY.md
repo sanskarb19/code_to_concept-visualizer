@@ -1,0 +1,1 @@
+- [Replit Python package setup](replit-python-package-setup.md) — when base Nix Python has no pip, install a Replit Python tools module before dependencies.
