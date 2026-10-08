@@ -1,5 +1,3 @@
-"""FastAPI web application for the Python Code Visualizer."""
-
 import os
 from pathlib import Path
 from typing import Any
@@ -115,7 +113,7 @@ if __name__ == "__main__":
 
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=int(os.environ.get("PORT", "8000")),
         reload=False,
     )
