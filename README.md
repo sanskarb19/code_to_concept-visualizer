@@ -12,7 +12,7 @@ does not execute or determine the result of a program.
 ```bash
 pip install -r requirements.txt
 python main.py
-```
+``` 
 
 Open <http://localhost:8000>. The browser editor uses Monaco when its CDN is
 reachable and falls back to a keyboard-editable editor if it is not.
