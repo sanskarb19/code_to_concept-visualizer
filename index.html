@@ -6,10 +6,11 @@
   <meta name="theme-color" content="#f5f3ed">
   <meta name="description" content="A precise, step-by-step visualizer for Python execution.">
   <title>Python Code Visualizer</title>
-  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
-  <link rel="stylesheet" href="/static/css/style.css">
+
+  <link rel="icon" type="image/svg+xml" href="./frontend/favicon.svg">
+  <link rel="stylesheet" href="./frontend/css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js" defer></script>
-  <script src="/static/js/app.js" defer></script>
+  <script src="./frontend/js/app.js" defer></script>
 </head>
 <body>
   <div class="app-shell">
@@ -23,43 +24,83 @@
             <circle cx="11.6" cy="15.8" r=".7" fill="#317c6d"/>
           </svg>
         </span>
-        <span><span class="brand-name">Python Code Visualizer</span><span class="brand-subtitle">Execution, made visible</span></span>
+        <span>
+          <span class="brand-name">Python Code Visualizer</span>
+          <span class="brand-subtitle">Execution, made visible</span>
+        </span>
       </a>
+
       <span class="header-divider" aria-hidden="true"></span>
+
       <label class="concept-field" for="concept-select">
         <span class="field-label">Concept</span>
         <select class="concept-select" id="concept-select" aria-label="Select a Python concept">
           <option value="">Loading concepts…</option>
         </select>
       </label>
+
       <span class="header-spacer"></span>
+
       <div class="service-state" id="gemini-status" data-state="checking" role="status" aria-live="polite">
         <span class="service-dot" aria-hidden="true"></span>
-        <span class="service-name">Gemini</span><span id="gemini-label">Checking</span>
+        <span class="service-name">Gemini</span>
+        <span id="gemini-label">Checking</span>
       </div>
     </header>
 
     <nav class="controlbar" aria-label="Execution controls">
-      <div class="control-context"><span class="context-dot"></span><span>Trace</span><span class="context-name" id="concept-context">Waiting for concept</span></div>
+      <div class="control-context">
+        <span class="context-dot"></span>
+        <span>Trace</span>
+        <span class="context-name" id="concept-context">Waiting for concept</span>
+      </div>
+
       <button class="button button-subtle button-icon" id="previous-button" type="button" title="Previous step" aria-label="Previous step" disabled>
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M9.8 3.2 5 8l4.8 4.8M5.2 8h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M9.8 3.2 5 8l4.8 4.8M5.2 8h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
+
       <button class="button button-subtle button-icon" id="next-button" type="button" title="Next step" aria-label="Next step" disabled>
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6.2 3.2 4.8 4.8-4.8 4.8M10.8 8h-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="m6.2 3.2 4.8 4.8-4.8 4.8M10.8 8h-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
+
       <button class="button button-subtle" id="play-button" type="button" title="Play trace" disabled>
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m5.2 3.5 7.1 4.1-7.1 4.1V3.5Z" fill="currentColor"/></svg><span class="button-word">Play</span>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="m5.2 3.5 7.1 4.1-7.1 4.1V3.5Z" fill="currentColor"/>
+        </svg>
+        <span class="button-word">Play</span>
       </button>
+
       <button class="button button-subtle" id="pause-button" type="button" title="Pause trace" disabled>
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.2 3.6v8.8M10.8 3.6v8.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="button-word">Pause</span>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M5.2 3.6v8.8M10.8 3.6v8.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span class="button-word">Pause</span>
       </button>
+
       <button class="button button-subtle button-icon" id="reset-button" type="button" title="Reset trace" aria-label="Reset trace" disabled>
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.1 7.3A5 5 0 1 1 4 11M3.1 3.7v3.8h3.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3.1 7.3A5 5 0 1 1 4 11M3.1 3.7v3.8h3.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
-      <div class="step-counter" id="step-counter" aria-live="polite"><strong>0</strong> / 0</div>
-      <label class="speed-control" for="speed-range"><span>Tempo</span><input id="speed-range" type="range" min="1" max="10" value="5" aria-label="Playback speed"></label>
+
+      <div class="step-counter" id="step-counter" aria-live="polite">
+        <strong>0</strong> / 0
+      </div>
+
+      <label class="speed-control" for="speed-range">
+        <span>Tempo</span>
+        <input id="speed-range" type="range" min="1" max="10" value="5" aria-label="Playback speed">
+      </label>
+
       <button class="button button-primary run-button" id="run-button" type="button" title="Execute Python code">
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m5.2 3.5 7.1 4.1-7.1 4.1V3.5Z" fill="currentColor"/></svg><span class="button-word">Run code</span>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="m5.2 3.5 7.1 4.1-7.1 4.1V3.5Z" fill="currentColor"/>
+        </svg>
+        <span class="button-word">Run code</span>
       </button>
     </nav>
 
@@ -70,10 +111,14 @@
           <span class="heading-meta">Edit Python, then run to capture a trace</span>
           <span class="heading-spacer"></span>
           <span class="file-chip">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.2 1.8h6.2l3.4 3.4v9H3.2v-12.4Z" stroke="currentColor" stroke-width="1.2"/><path d="M9.2 1.9v3.5h3.5M5.2 8.1h5.5M5.2 10.4h5.5" stroke="currentColor" stroke-width="1.1"/></svg>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3.2 1.8h6.2l3.4 3.4v9H3.2v-12.4Z" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M9.2 1.9v3.5h3.5M5.2 8.1h5.5M5.2 10.4h5.5" stroke="currentColor" stroke-width="1.1"/>
+            </svg>
             main.py
           </span>
         </div>
+
         <div class="editor-stage" id="editor-stage">
           <div id="monaco-host" aria-label="Monaco Python editor"></div>
           <div class="fallback-editor" id="fallback-editor">
@@ -84,9 +129,13 @@
             </div>
           </div>
         </div>
+
         <div class="editor-statusbar">
-          <span id="editor-mode">Python</span><span id="editor-position">Ln 1, Col 1</span>
-          <span class="status-spacer"></span><span>Spaces: 4</span><span class="status-good" id="editor-engine">Browser editor</span>
+          <span id="editor-mode">Python</span>
+          <span id="editor-position">Ln 1, Col 1</span>
+          <span class="status-spacer"></span>
+          <span>Spaces: 4</span>
+          <span class="status-good" id="editor-engine">Browser editor</span>
         </div>
       </section>
 
@@ -96,24 +145,51 @@
           <span class="heading-spacer"></span>
           <span class="trace-heading-tag" id="trace-summary">NO TRACE</span>
         </div>
+
         <section class="concept-lens" aria-label="Concept-focused trace view">
-          <div class="section-label"><span id="concept-lens-title">Concept view</span><span class="section-count" id="concept-lens-meta">Waiting for execution</span></div>
-          <div class="concept-focus" id="concept-focus"><div class="focus-empty">Run the program to see the selected concept reflected in actual trace data.</div></div>
-        </section>
-        <section class="trace-region" aria-label="Execution trace">
-          <div class="section-label"><span>Trace events</span><span class="section-count" id="trace-count">0 events</span></div>
-          <div class="trace-list" id="trace-list" role="listbox" aria-label="Execution steps">
-            <div class="trace-empty"><div class="trace-empty-inner"><strong>Nothing has run yet</strong><span>Run your code to inspect its real execution.</span></div></div>
+          <div class="section-label">
+            <span id="concept-lens-title">Concept view</span>
+            <span class="section-count" id="concept-lens-meta">Waiting for execution</span>
+          </div>
+          <div class="concept-focus" id="concept-focus">
+            <div class="focus-empty">Run the program to see the selected concept reflected in actual trace data.</div>
           </div>
         </section>
+
+        <section class="trace-region" aria-label="Execution trace">
+          <div class="section-label">
+            <span>Trace events</span>
+            <span class="section-count" id="trace-count">0 events</span>
+          </div>
+          <div class="trace-list" id="trace-list" role="listbox" aria-label="Execution steps">
+            <div class="trace-empty">
+              <div class="trace-empty-inner">
+                <strong>Nothing has run yet</strong>
+                <span>Run your code to inspect its real execution.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div class="state-grid">
           <section class="state-section" aria-label="Variables at current step">
-            <div class="section-label"><span>Variables</span><span class="section-count" id="variable-count">—</span></div>
-            <div class="state-content" id="variables-content"><div class="state-empty">Variable values appear with the trace.</div></div>
+            <div class="section-label">
+              <span>Variables</span>
+              <span class="section-count" id="variable-count">—</span>
+            </div>
+            <div class="state-content" id="variables-content">
+              <div class="state-empty">Variable values appear with the trace.</div>
+            </div>
           </section>
+
           <section class="state-section" aria-label="Call stack at current step">
-            <div class="section-label"><span>Call stack</span><span class="section-count" id="stack-count">—</span></div>
-            <div class="state-content" id="stack-content"><div class="state-empty">Function frames appear here.</div></div>
+            <div class="section-label">
+              <span>Call stack</span>
+              <span class="section-count" id="stack-count">—</span>
+            </div>
+            <div class="state-content" id="stack-content">
+              <div class="state-empty">Function frames appear here.</div>
+            </div>
           </section>
         </div>
       </section>
@@ -122,25 +198,50 @@
     <section class="bottom-dock" aria-label="Program output and explanation">
       <section class="panel dock-panel" aria-label="Program output">
         <div class="dock-heading">
-          <span class="dock-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="m5.3 3.5-4 4.5 4 4.5M10.7 3.5l4 4.5-4 4.5M9.1 2.5 6.9 13.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="dock-title">Program output</span><span class="dock-caption" id="output-caption">stdout</span>
+          <span class="dock-icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="m5.3 3.5-4 4.5 4 4.5M10.7 3.5l4 4.5-4 4.5M9.1 2.5 6.9 13.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="dock-title">Program output</span>
+          <span class="dock-caption" id="output-caption">stdout</span>
         </div>
-        <div class="dock-body" id="output-content" aria-live="polite"><div class="output-empty">Printed output will appear here when your program runs.</div></div>
+        <div class="dock-body" id="output-content" aria-live="polite">
+          <div class="output-empty">Printed output will appear here when your program runs.</div>
+        </div>
       </section>
+
       <section class="panel dock-panel ai-panel" aria-label="AI explanation">
         <div class="dock-heading ai-heading">
-          <span class="dock-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1.8 9.6 6.4 14.2 8l-4.6 1.6L8 14.2l-1.6-4.6L1.8 8l4.6-1.6L8 1.8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="m12.2 1.5.7 2.1 2.1.7-2.1.7-.7 2.1-.7-2.1-2.1-.7 2.1-.7.7-2.1Z" fill="currentColor"/></svg></span>
-          <span class="dock-title">Explain this step</span><span class="heading-spacer"></span>
+          <span class="dock-icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="M8 1.8 9.6 6.4 14.2 8l-4.6 1.6L8 14.2l-1.6-4.6L1.8 8l4.6-1.6L8 1.8Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              <path d="m12.2 1.5.7 2.1 2.1.7-2.1.7-.7 2.1-.7-2.1-2.1-.7 2.1-.7.7-2.1Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="dock-title">Explain this step</span>
+          <span class="heading-spacer"></span>
           <button class="button button-subtle explain-button" id="explain-button" type="button" disabled>Ask Gemini</button>
         </div>
+
         <div class="dock-body ai-content" id="explanation-content" aria-live="polite">
-          <div class="ai-empty"><span class="ai-empty-mark">01</span><span>Select a trace step to ask for a beginner-friendly explanation of what Python just did.</span></div>
+          <div class="ai-empty">
+            <span class="ai-empty-mark">01</span>
+            <span>Select a trace step to ask for a beginner-friendly explanation of what Python just did.</span>
+          </div>
         </div>
       </section>
     </section>
 
-  <footer class="app-footer"><span>Local execution trace</span><span aria-hidden="true">·</span><span>Python state captured step by step</span><span class="footer-spacer"></span><span class="footer-note">Subprocess only · not a security sandbox</span></footer>
+    <footer class="app-footer">
+      <span>Local execution trace</span>
+      <span aria-hidden="true">·</span>
+      <span>Python state captured step by step</span>
+      <span class="footer-spacer"></span>
+      <span class="footer-note">Subprocess only · not a security sandbox</span>
+    </footer>
   </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite" data-tone="error"></div>
 </body>
 </html>
